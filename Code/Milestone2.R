@@ -61,10 +61,32 @@ library(ggplot2)
 # convert log-transformed and imputed fentanyl exposure data to a dataframe
 # for ggplot2
 lodOverRoot2logdf <- data.frame(value = lodOverRoot2log)
-p <- ggplot(lodOverRoot2logdf, aes(x=weight)) + 
-  geom_density()
 
-### plot a histogram of the transformed values
+# create density plot with ggplot2
+log_density <- ggplot(lodOverRoot2logdf, aes(x=value)) + 
+  geom_density()+
+  labs(title="Density curve of log-transformed airborne fentanyl exposure data with LOD/sqrt(2)",
+       x="Airborne fentanyl concentration (ng/m^3)", y = "Density") +
+  theme(plot.title = element_text(
+      hjust = 0.5, 
+      size = 10))
+log_density
+
+# convert imputed fentanyl exposure data to a dataframe
+# for ggplot2
+lodOverRoot2df <- data.frame(value = lodOverRoot2)
+
+# create density plot with ggplot2
+density <- ggplot(lodOverRoot2df, aes(x=value)) + 
+  geom_density() +
+  labs(title="Density curve of airborne fentanyl exposure data with LOD/sqrt(2)",
+       x="Airborne fentanyl concentration (ng/m^3)", y = "Density")+
+  theme(plot.title = element_text(
+    hjust = 0.5, 
+    size = 10))
+density
+
+### plot a histogram of the transformed values example from tutorial
 
 hist(lodOverRoot2)
 
