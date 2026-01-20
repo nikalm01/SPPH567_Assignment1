@@ -86,6 +86,17 @@ density <- ggplot(lodOverRoot2df, aes(x=value)) +
     size = 10))
 density
 
+
+# create density plot for temperature with ggplot2
+temperature_density <- ggplot(fentanyldata, aes(x=Temperature_C)) + 
+  geom_density() +
+  labs(title="Density curve of temperature",
+       x="Temperature (degrees Celcius)", y = "Density")+
+  theme(plot.title = element_text(
+    hjust = 0.5, 
+    size = 12))
+temperature_density
+
 ### plot a histogram of the transformed values example from tutorial
 
 hist(lodOverRoot2)
