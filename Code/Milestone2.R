@@ -15,7 +15,7 @@ fentanyldataNoNA <- read.csv(file = "Data/Fentanyl_Data_Jan20_NM.csv",
 ### summarize airborne fentanyl values
 
 #summary(fentanyldata$Fentanyl_ng_m3)
-mean(fentanyldata$Fentanyl_ng_m3, na.rm = T)
+#mean(fentanyldata$Fentanyl_ng_m3, na.rm = T)
 
 data <- fentanyldataNoNA$Fentanyl_Concentration_ug_m3_TWA
 
@@ -88,7 +88,7 @@ density
 
 
 # create density plot for temperature with ggplot2
-temperature_density <- ggplot(fentanyldata, aes(x=Temperature_C)) + 
+temperature_density <- ggplot(fentanyldataNoNA, aes(x=Temperature_C)) + 
   geom_density() +
   labs(title="Density curve of temperature",
        x="Temperature (degrees Celcius)", y = "Density")+
