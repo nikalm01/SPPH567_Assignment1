@@ -11,7 +11,7 @@ fentanyldata <- read.csv(file = "Data/synthetic_fentanyl_exposure_dataset.csv",
                      header = T,
                      stringsAsFactors = F)
 
-fentanyldataNoNA <- read.csv(file = "Data/1000_Row_with NA.csv",
+fentanyldataNoNA <- read.csv(file = "Data/Fentanyl_Data_Jan20_NM.csv",
                          header = T,
                          stringsAsFactors = F)
 
@@ -20,8 +20,12 @@ fentanyldataNoNA <- read.csv(file = "Data/1000_Row_with NA.csv",
 summary(fentanyldata$Fentanyl_ng_m3)
 mean(fentanyldata$Fentanyl_ng_m3, na.rm = T)
 
-summary(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA)
-mean(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA, na.rm = T)
+data <- fentanyldataNoNA$Fentanyl_Concentration_ug_m3_TWA
+
+summary(data)
+mean(data)
+
+
 
 ### create an object with the <LOD values replaced with 4/sqrt(2)
 
@@ -46,7 +50,7 @@ quantile(lodOverRoot2, 0.95)
 ### log-transform the lodOverRoot2 values and calculate summaries
 
 lodOverRoot2log <- log(lodOverRoot2)
-logFentanylConcNoNA <- log(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA)
+logFentanylConcNoNA <- log(data)
 
 # calculate arithmetic mean, sd, median, and 95th percentile of the log-transformed PM2.5 values
 mean(lodOverRoot2log)
