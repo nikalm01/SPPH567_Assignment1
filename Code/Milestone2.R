@@ -11,10 +11,17 @@ fentanyldata <- read.csv(file = "Data/synthetic_fentanyl_exposure_dataset.csv",
                      header = T,
                      stringsAsFactors = F)
 
+fentanyldataNoNA <- read.csv(file = "Data/1000_Row_with NA.csv",
+                         header = T,
+                         stringsAsFactors = F)
+
 ### summarize airborne fentanyl values
 
 summary(fentanyldata$Fentanyl_ng_m3)
 mean(fentanyldata$Fentanyl_ng_m3, na.rm = T)
+
+summary(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA)
+mean(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA, na.rm = T)
 
 ### create an object with the <LOD values replaced with 4/sqrt(2)
 
@@ -36,9 +43,10 @@ sd(lodOverRoot2)
 median(lodOverRoot2)
 quantile(lodOverRoot2, 0.95)
 
-### log-transform the lodOverRoot2 val;ues and calculate summaries
+### log-transform the lodOverRoot2 values and calculate summaries
 
 lodOverRoot2log <- log(lodOverRoot2)
+logFentanylConcNoNA <- log(fentanyldataNoNA$Fentanyl_Concentration_ng_m3_TWA)
 
 # calculate arithmetic mean, sd, median, and 95th percentile of the log-transformed PM2.5 values
 mean(lodOverRoot2log)
@@ -61,6 +69,7 @@ library(ggplot2)
 # convert log-transformed and imputed fentanyl exposure data to a dataframe
 # for ggplot2
 lodOverRoot2logdf <- data.frame(value = lodOverRoot2log)
+logdFentanylConcdf <- data.frame(value = logFentanylConcNoNA)
 
 # create density plot with ggplot2
 log_density <- ggplot(lodOverRoot2logdf, aes(x=value)) + 
@@ -72,6 +81,16 @@ log_density <- ggplot(lodOverRoot2logdf, aes(x=value)) +
       size = 10))
 log_density
 
+# create density plot with ggplot2
+log_density <- ggplot(logdFentanylConcdf, aes(x=value)) + 
+  geom_density()+
+  labs(title="Density curve of log-transformed airborne fentanyl exposure data",
+       x="Airborne fentanyl concentration (ng/m^3)", y = "Density") +
+  theme(plot.title = element_text(
+    hjust = 0.5, 
+    size = 10))
+log_density
+
 # convert imputed fentanyl exposure data to a dataframe
 # for ggplot2
 lodOverRoot2df <- data.frame(value = lodOverRoot2)
@@ -80,6 +99,16 @@ lodOverRoot2df <- data.frame(value = lodOverRoot2)
 density <- ggplot(lodOverRoot2df, aes(x=value)) + 
   geom_density() +
   labs(title="Density curve of airborne fentanyl exposure data with LOD/sqrt(2)",
+       x="Airborne fentanyl concentration (ng/m^3)", y = "Density")+
+  theme(plot.title = element_text(
+    hjust = 0.5, 
+    size = 10))
+density
+
+# create density plot with ggplot2
+density <- ggplot(fentanyldataNoNA, aes(x=Fentanyl_Concentration_ng_m3_TWA)) + 
+  geom_density() +
+  labs(title="Density curve of airborne fentanyl exposure",
        x="Airborne fentanyl concentration (ng/m^3)", y = "Density")+
   theme(plot.title = element_text(
     hjust = 0.5, 
