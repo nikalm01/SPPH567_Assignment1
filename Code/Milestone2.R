@@ -69,7 +69,7 @@ logdFentanylConcdf <- data.frame(value = logFentanylConcNoNA)
 log_density <- ggplot(logdFentanylConcdf, aes(x=value)) + 
   geom_density()+
   labs(title="Density curve of log-transformed airborne fentanyl exposure data",
-       x="Airborne fentanyl concentration (ng/m^3)", y = "Density") +
+       x="Airborne fentanyl concentration (ug/m^3)", y = "Density") +
   theme(plot.title = element_text(
     hjust = 0.5, 
     size = 10))
@@ -80,7 +80,7 @@ log_density
 density <- ggplot(fentanyldataNoNA, aes(x=Fentanyl_Concentration_ug_m3_TWA)) + 
   geom_density() +
   labs(title="Density curve of airborne fentanyl exposure",
-       x="Airborne fentanyl concentration (ng/m^3)", y = "Density")+
+       x="Airborne fentanyl concentration (ug/m^3)", y = "Density")+
   theme(plot.title = element_text(
     hjust = 0.5, 
     size = 10))
