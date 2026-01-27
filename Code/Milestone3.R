@@ -50,3 +50,35 @@ t.test(fentanyldata$logFent ~ fentanyldata$Drug_Use_Observed, var.equal = F)
 lm.ventilation <- lm(fentanyldata$logFent ~ fentanyldata$Ventilation)
 
 lm.Drug_Use <- lm(fentanyldata$logFent ~ fentanyldata$Drug_Use_Observed)
+
+### save models
+lm.ventilation.summary <- summary(lm.ventilation)
+lm.Drug_Use.summary <- summary(lm.Drug_Use)
+
+lm.ventilation.intercept <- lm.ventilation.summary$coefficients[1,1]
+lm.Drug_Use.intercept <- lm.Drug_Use.summary$coefficients[1,1]
+
+lm.ventilation.slope <- lm.ventilation.summary$coefficients[2,1]
+lm.Drug_Use.slope <- lm.Drug_Use.summary$coefficients[2,1]
+
+## calculate geometric means for each dichotomous variable
+
+geomeanVentOff <- exp(lm.ventilation.intercept)
+geomeanVentOn <- exp(lm.ventilation.intercept + lm.ventilation.slope)
+
+geomeanDrugUse0 <- exp(lm.Drug_Use.intercept)
+geomeanDrugUse1 <- exp(lm.Drug_Use.intercept + lm.Drug_Use.slope)
+
+### calculate risk ratios
+VentRiskRatio <- geomeanVentOn/geomeanVentOff
+DrugUseRiskRatio <- geomeanDrugUse1/geomeanDrugUse0
+
+### Confidence intervals
+
+VentLCI <- exp(lm.ventilation.slope - (1.96*lm.ventilation.summary$coefficients[2,2]))
+VentUCI <- exp(lm.ventilation.slope + (1.96*lm.ventilation.summary$coefficients[2,2]))
+
+DrugUseLCI <- exp(lm.Drug_Use.slope - (1.96*lm.Drug_Use.summary$coefficients[2,2]))
+DrugUseUCI <- exp(lm.Drug_Use.slope + (1.96*lm.Drug_Use.summary$coefficients[2,2]))
+
+
