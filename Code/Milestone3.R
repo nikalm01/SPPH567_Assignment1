@@ -81,4 +81,32 @@ VentUCI <- exp(lm.ventilation.slope + (1.96*lm.ventilation.summary$coefficients[
 DrugUseLCI <- exp(lm.Drug_Use.slope - (1.96*lm.Drug_Use.summary$coefficients[2,2]))
 DrugUseUCI <- exp(lm.Drug_Use.slope + (1.96*lm.Drug_Use.summary$coefficients[2,2]))
 
+### test variance
 
+library(dplyr)
+
+fentanylVentOn <- fentanyldata %>%
+  filter(Ventilation == 1) %>%
+  pull(Fentanyl_Concentration_ug_m3_TWA) %>%
+  log()
+
+fentanylVentOff <- fentanyldata %>%
+  filter(Ventilation == 0) %>%
+  pull(Fentanyl_Concentration_ug_m3_TWA) %>%
+  log()
+
+sVentOn <- var(fentanylVentOn)
+sVentOff <- var(fentanylVentOff)
+
+fentanylDrugUseYes <- fentanyldata %>%
+  filter(Drug_Use_Observed == 1) %>%
+  pull(Fentanyl_Concentration_ug_m3_TWA) %>%
+  log()
+
+fentanylDrugUseNo <- fentanyldata %>%
+  filter(Drug_Use_Observed == 0) %>%
+  pull(Fentanyl_Concentration_ug_m3_TWA) %>%
+  log()
+
+sDrugUseYes <- var(fentanylDrugUseYes)
+sDrugUseNo <- var(fentanylDrugUseNo)
