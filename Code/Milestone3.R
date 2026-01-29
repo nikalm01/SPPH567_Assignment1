@@ -5,7 +5,7 @@
 
 
 ### read the fentanyl data
-fentanyldata <- read.csv(file = "Data/fentdatanewLOD.csv",
+fentanyldata <- read.csv(file = "Data/fentdatanewLOD_Jan28 - ventilation fixed.csv",
                              header = T,
                              stringsAsFactors = F)
 
