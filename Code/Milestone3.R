@@ -108,5 +108,80 @@ fentanylDrugUseNo <- fentanyldata %>%
   pull(Fentanyl_Concentration_ug_m3_TWA) %>%
   log()
 
-sDrugUseYes <- var(fentanylDrugUseYes)
-sDrugUseNo <- var(fentanylDrugUseNo)
+#%% Find variances for temperature
+
+TempVentOn <- fentanyldata %>%
+  filter(Ventilation == 1) %>%
+  pull(Temperature_C) 
+
+TempVentOff <- fentanyldata %>%
+  filter(Ventilation == 0) %>%
+  pull(Temperature_C) 
+
+sVentOnTemp <- var(TempVentOn)
+sVentOffTemp <- var(TempVentOff)
+
+TempDrugUseYes <- fentanyldata %>%
+  filter(Drug_Use_Observed == 1) %>%
+  pull(Temperature_C) 
+
+TempDrugUseNo <- fentanyldata %>%
+  filter(Drug_Use_Observed == 0) %>%
+  pull(Temperature_C) 
+
+sDrugUseYesTemp <- var(TempDrugUseYes)
+sDrugUseNoTemp <- var(TempDrugUseNo)
+
+temperature <- fentanyldata %>%
+  pull(Temperature_C)
+
+### run a t-test and Welch's test on the log-transformed PM2.5
+### concentrations vs. wind
+
+t.test(fentanyldata$Temperature_C ~ fentanyldata$Ventilation, var.equal = T)
+
+t.test(fentanyldata$Temperature_C ~ fentanyldata$Drug_Use_Observed, var.equal = T)
+
+
+### run a linear regression model with the log-transformed data
+lm.ventilationTemp <- lm(fentanyldata$Temperature_C ~ fentanyldata$Ventilation)
+
+lm.Drug_UseTemp <- lm(fentanyldata$Temperature_C ~ fentanyldata$Drug_Use_Observed)
+
+### save models
+lm.ventilationTemp.summary <- summary(lm.ventilationTemp)
+lm.Drug_UseTemp.summary <- summary(lm.Drug_UseTemp)
+
+lm.ventilationTemp.intercept <- lm.ventilationTemp.summary$coefficients[1,1]
+lm.Drug_UseTemp.intercept <- lm.Drug_UseTemp.summary$coefficients[1,1]
+
+lm.ventilationTemp.slope <- lm.ventilationTemp.summary$coefficients[2,1]
+lm.Drug_UseTemp.slope <- lm.Drug_UseTemp.summary$coefficients[2,1]
+
+lm.ventilationTemp.standarderror <- lm.ventilationTemp.summary$coefficients[2,2]
+lm.Drug_UseTemp.standarderror <- lm.Drug_UseTemp.summary$coefficients[2,2]
+
+VentLCITemp <- lm.ventilationTemp.slope - (1.96*lm.ventilationTemp.standarderror)
+VentUCITemp <- lm.ventilationTemp.slope + (1.96*lm.ventilationTemp.standarderror)
+
+DrugUseLCITemp <- lm.Drug_UseTemp.slope - (1.96*lm.Drug_UseTemp.standarderror)
+DrugUseUCITemp <- lm.Drug_UseTemp.slope + (1.96*lm.Drug_UseTemp.standarderror)
+
+### Confidence intervals
+
+VentLCI <- exp(lm.ventilation.slope - (1.96*lm.ventilation.summary$coefficients[2,2]))
+VentUCI <- exp(lm.ventilation.slope + (1.96*lm.ventilation.summary$coefficients[2,2]))
+
+DrugUseLCI <- exp(lm.Drug_Use.slope - (1.96*lm.Drug_Use.summary$coefficients[2,2]))
+DrugUseUCI <- exp(lm.Drug_Use.slope + (1.96*lm.Drug_Use.summary$coefficients[2,2]))
+
+
+lm.ventilationTemp.slope
+
+
+
+
+
+
+
+
