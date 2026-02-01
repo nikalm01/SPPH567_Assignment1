@@ -175,8 +175,7 @@ VentUCI <- exp(lm.ventilation.slope + (1.96*lm.ventilation.summary$coefficients[
 DrugUseLCI <- exp(lm.Drug_Use.slope - (1.96*lm.Drug_Use.summary$coefficients[2,2]))
 DrugUseUCI <- exp(lm.Drug_Use.slope + (1.96*lm.Drug_Use.summary$coefficients[2,2]))
 
-
-lm.ventilationTemp.slope
+save(fentanyldata, file = "Data/fentanyldata.rdata")
 
 
 
