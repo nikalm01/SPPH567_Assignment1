@@ -77,14 +77,4 @@ summary(lm.Site)
 exp(confint(lm.Site))
 exp(coef(lm.Site))
 
-### check for an association between SourceSeason and Windy
-
-table(pm25data$SourceSeason, pm25data$Windy)
-mosaicplot(table(pm25data$SourceSeason, pm25data$Windy),
-           col = c("red", "blue"),
-           main = "Mosaic Plot")
-chisq.test(pm25data$SourceSeason, pm25data$Windy)
-
-### save your updated data
-
-save(pm25data, file = "Data/pm25_noLOD.rdata")
+save(fentanyldata, file = "Data/fentanyldata.rdata")
