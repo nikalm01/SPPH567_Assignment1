@@ -14,6 +14,16 @@ plot(data = fentanyldata,
      xlab = "Temperature (degrees Celcius)")
 text(3,0, paste("Pearson's r =", round(cor$estimate, 2)))
 
+library(ggplot2)
+ggplot(fentanyldata, aes(x = Temperature_C, y = logFent, color = Site)) + 
+  geom_point()+
+  labs(title="Log(Fentanyl) vs. Temperature",x="Temperature (degrees C)", y = "log(Fentanyl Concentrations (ug/m3))")
+  
+ggplot(fentanyldata, aes(x = Temperature_C, y = logFent)) + 
+  geom_point()+
+  labs(title="Log(Fentanyl) vs. Temperature",x="Temperature (degrees C)", y = "log(Fentanyl Concentrations (ug/m3))")
+
+
 ### Regression model for logPM25 and AOD when FRP = 0
 
 fit.temp <- lm(data = fentanyldata, logFent ~ Temperature_C)
