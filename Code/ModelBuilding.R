@@ -153,6 +153,42 @@ fentanyldata$No_vent_with_Drug_Use <-  as.numeric(!fentanyldata$Ventilation & fe
 fentanyldata$No_vent_with_Drug_Use <- factor(fentanyldata$No_vent_with_Drug_Use)
 
 
+## Just look at when drug use is observed, for curiosity
+
+library(dplyr)
+
+fentanyldata_DUO <- fentanyldata %>%
+  filter(Drug_Use_Observed == 1)
+
+fentanyldata_DUO$Ventilation <- factor(fentanyldata_DUO$Ventilation)
+# SiteType
+boxplot(logFent~SiteType, data = fentanyldata_DUO)
+summary(aov(logFent~SiteType, data = fentanyldata_DUO))
+summary(lm(logFent~SiteType, data = fentanyldata_DUO))
+
+# Room_Type
+boxplot(logFent~Room_Type, data = fentanyldata_DUO)
+summary(aov(logFent~Room_Type, data = fentanyldata_DUO))
+summary(lm(logFent~Room_Type, data = fentanyldata_DUO))
+
+# Temperature
+
+plot(logFent~Temperature_C, data = fentanyldata_DUO)
+cor.test(fentanyldata_DUO$logFent, fentanyldata_DUO$Temperature_C, method = "pearson")
+summary(lm(logFent~Temperature_C, data = fentanyldata_DUO)) 
+
+# Ventilation
+boxplot(logFent~Ventilation, data = fentanyldata_DUO)
+var.test(logFent~Ventilation, data = fentanyldata_DUO)
+t.test(logFent~Ventilation, data = fentanyldata_DUO, var.equal = T)
+summary(lm(logFent~Ventilation, data = fentanyldata_DUO)) 
+
+
+all_DUO <- lm(logFent ~ SiteType + Room_Type + Temperature_C + Ventilation,
+          data = fentanyldata_DUO)
+summary(all_DUO)
+
+### JUST PLAYING AROUND 
 ### Test relationships between new variables
 
 # Ventilation with drug use
